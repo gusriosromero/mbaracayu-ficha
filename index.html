@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ficha de Ingreso · Mbaracayú Lodge</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde-bosque: #2D4A2D;
+    --verde-medio: #4A7A4A;
+    --verde-claro: #7BAE7F;
+    --crema: #F5F0E8;
+    --crema-oscuro: #E8E0D0;
+    --tierra: #8B6914;
+    --tierra-claro: #C4A35A;
+    --texto: #1A2E1A;
+    --texto-suave: #5A7A5A;
+    --error: #C0392B;
+    --blanco: #FFFFFF;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--crema);
+    color: var(--texto);
+    min-height: 100vh;
+  }
+
+  /* ─── HEADER ─── */
+  .header {
+    background: var(--verde-bosque);
+    padding: 28px 24px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234A7A4A' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+  .header-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--tierra-claro);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    position: relative;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: var(--crema);
+    font-weight: 600;
+    line-height: 1.2;
+    position: relative;
+  }
+  .header-sub {
+    font-size: 12px;
+    color: var(--verde-claro);
+    margin-top: 6px;
+    letter-spacing: 1px;
+    position: relative;
+  }
+  .header-divider {
+    width: 48px;
+    height: 2px;
+    background: var(--tierra-claro);
+    margin: 14px auto 0;
+    position: relative;
+  }
+
+  /* ─── LANG TOGGLE ─── */
+  .lang-bar {
+    background: var(--verde-medio);
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    padding: 10px;
+  }
+  .lang-btn {
+    padding: 5px 18px;
+    border-radius: 20px;
+    border: 1.5px solid transparent;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: transparent;
+    color: var(--crema);
+  }
+  .lang-btn.active {
+    background: var(--crema);
+    color: var(--verde-bosque);
+    border-color: var(--crema);
+  }
+
+  /* ─── MODE BADGE ─── */
+  .mode-badge {
+    background: var(--tierra);
+    color: var(--crema);
+    text-align: center;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  /* ─── CONTAINER ─── */
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 24px 16px 48px;
+  }
+
+  /* ─── SECTION ─── */
+  .section {
+    background: var(--blanco);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(45,74,45,0.08);
+  }
+  .section-header {
+    background: var(--verde-bosque);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-icon { font-size: 18px; }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: var(--crema);
+    font-weight: 600;
+  }
+  .section-body { padding: 20px; }
+
+  /* ─── FIELDS ─── */
+  .field-row {
+    display: grid;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .field-row.cols-2 { grid-template-columns: 1fr 1fr; }
+  .field-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    color: var(--texto-suave);
+    text-transform: uppercase;
+  }
+  .field label .req { color: var(--tierra); }
+  .field input, .field select, .field textarea {
+    border: 1.5px solid var(--crema-oscuro);
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 15px;
+    font-family: 'Lato', sans-serif;
+    color: var(--texto);
+    background: var(--crema);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+    -webkit-appearance: none;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    outline: none;
+    border-color: var(--verde-medio);
+    box-shadow: 0 0 0 3px rgba(74,122,74,0.12);
+    background: var(--blanco);
+  }
+  .field input.error { border-color: var(--error); }
+  .field textarea { resize: vertical; min-height: 70px; }
+  .field select { cursor: pointer; }
+
+  /* ─── ACTIVIDADES CHECKBOXES ─── */
+  .actividades-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--crema);
+    border: 1.5px solid var(--crema-oscuro);
+    border-radius: 8px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .check-item:hover { border-color: var(--verde-claro); }
+  .check-item input[type="checkbox"] { display: none; }
+  .check-box {
+    width: 18px; height: 18px; min-width: 18px;
+    border: 2px solid var(--crema-oscuro);
+    border-radius: 4px;
+    background: var(--blanco);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .check-item input:checked ~ .check-box {
+    background: var(--verde-medio);
+    border-color: var(--verde-medio);
+  }
+  .check-item input:checked ~ .check-box::after {
+    content: '✓';
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .check-label { font-size: 13px; color: var(--texto); line-height: 1.3; }
+
+  /* ─── TIPO HABITACION ─── */
+  .tipo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .tipo-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    background: var(--crema);
+    border: 1.5px solid var(--crema-oscuro);
+    border-radius: 8px;
+    padding: 12px 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+    user-select: none;
+  }
+  .tipo-item:hover { border-color: var(--verde-claro); }
+  .tipo-item input[type="radio"] { display: none; }
+  .tipo-item.selected {
+    border-color: var(--verde-medio);
+    background: rgba(74,122,74,0.08);
+  }
+  .tipo-icon { font-size: 22px; }
+  .tipo-label { font-size: 11px; font-weight: 700; color: var(--texto-suave); text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* ─── COMO SE ENTERO ─── */
+  .radio-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .radio-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--crema);
+    border: 1.5px solid var(--crema-oscuro);
+    border-radius: 20px;
+    padding: 7px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .radio-pill input { display: none; }
+  .radio-pill:hover { border-color: var(--verde-claro); }
+  .radio-pill.selected {
+    border-color: var(--verde-medio);
+    background: rgba(74,122,74,0.1);
+    color: var(--verde-bosque);
+    font-weight: 700;
+  }
+
+  /* ─── EXENCIÓN ─── */
+  .exencion-box {
+    background: var(--crema);
+    border: 1.5px solid var(--crema-oscuro);
+    border-radius: 8px;
+    padding: 16px;
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--texto-suave);
+    max-height: 180px;
+    overflow-y: auto;
+    margin-bottom: 14px;
+  }
+  .exencion-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: rgba(139,105,20,0.08);
+    border: 1.5px solid var(--tierra-claro);
+    border-radius: 8px;
+    padding: 14px;
+    cursor: pointer;
+  }
+  .exencion-check input[type="checkbox"] { display: none; }
+  .exencion-check-box {
+    width: 22px; height: 22px; min-width: 22px;
+    border: 2px solid var(--tierra);
+    border-radius: 5px;
+    background: var(--blanco);
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 1px;
+    transition: all 0.15s;
+  }
+  .exencion-check input:checked ~ .exencion-check-box {
+    background: var(--tierra);
+    border-color: var(--tierra);
+  }
+  .exencion-check input:checked ~ .exencion-check-box::after {
+    content: '✓';
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .exencion-text { font-size: 13px; line-height: 1.5; color: var(--texto); }
+
+  /* ─── IMAGEN AUTH ─── */
+  .imagen-row {
+    display: flex;
+    gap: 10px;
+  }
+  .imagen-opt {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1.5px solid var(--crema-oscuro);
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .imagen-opt input { display: none; }
+  .imagen-opt.si { color: var(--verde-bosque); }
+  .imagen-opt.no { color: var(--error); }
+  .imagen-opt.selected.si { background: rgba(45,74,45,0.1); border-color: var(--verde-medio); }
+  .imagen-opt.selected.no { background: rgba(192,57,43,0.08); border-color: var(--error); }
+
+  /* ─── ACOMPAÑANTES SECTION ─── */
+  .acomp-nota {
+    background: rgba(74,122,74,0.08);
+    border-left: 3px solid var(--verde-medio);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--texto-suave);
+    margin-bottom: 16px;
+  }
+
+  /* ─── SUBMIT ─── */
+  .submit-btn {
+    width: 100%;
+    background: var(--verde-bosque);
+    color: var(--crema);
+    border: none;
+    border-radius: 10px;
+    padding: 16px;
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .submit-btn:hover { background: var(--verde-medio); transform: translateY(-1px); }
+  .submit-btn:disabled { background: var(--crema-oscuro); color: var(--texto-suave); transform: none; cursor: not-allowed; }
+  .submit-btn .spinner {
+    width: 18px; height: 18px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ─── SUCCESS ─── */
+  .success-screen {
+    display: none;
+    text-align: center;
+    padding: 40px 24px;
+  }
+  .success-icon { font-size: 56px; margin-bottom: 16px; }
+  .success-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--verde-bosque);
+    margin-bottom: 10px;
+  }
+  .success-msg { font-size: 14px; color: var(--texto-suave); line-height: 1.6; }
+  .success-links {
+    margin-top: 24px;
+    background: var(--crema);
+    border-radius: 10px;
+    padding: 16px;
+    border: 1.5px solid var(--crema-oscuro);
+    text-align: left;
+  }
+  .success-links h3 {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--texto-suave);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .companion-link-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: var(--blanco);
+    border: 1.5px solid var(--crema-oscuro);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+  }
+  .companion-link-item span { font-size: 13px; color: var(--texto); }
+  .copy-btn {
+    background: var(--verde-bosque);
+    color: var(--crema);
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: 'Lato', sans-serif;
+  }
+  .copy-btn:active { background: var(--verde-medio); }
+
+  /* ─── ERROR MSG ─── */
+  .error-msg {
+    background: rgba(192,57,43,0.08);
+    border: 1.5px solid var(--error);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--error);
+    margin-bottom: 16px;
+    display: none;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 400px) {
+    .field-row.cols-3 { grid-template-columns: 1fr 1fr; }
+    .actividades-grid { grid-template-columns: 1fr; }
+    .tipo-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--crema-oscuro);
+    margin: 16px 0;
+  }
+
+  /* ─── HELPER TEXT ─── */
+  .helper { font-size: 11px; color: var(--texto-suave); margin-top: 3px; }
+
+  /* ─── COMPANION FIELDS ─── */
+  .companion-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px; height: 24px;
+    background: var(--verde-medio);
+    color: white;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 6px;
+  }
+  .num-control {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 8px;
+  }
+  .num-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--verde-medio);
+    background: var(--blanco);
+    color: var(--verde-bosque);
+    font-size: 20px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.15s;
+    line-height: 1;
+  }
+  .num-btn:hover { background: var(--verde-medio); color: var(--blanco); }
+  .num-display {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--verde-bosque);
+    min-width: 30px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo">Reserva Natural</div>
+  <h1>Mbaracayú Lodge</h1>
+  <div class="header-sub" id="header-sub">Ficha de Ingreso · Registration Form</div>
+  <div class="header-divider"></div>
+</div>
+
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="setLang('es')">🇵🇾 Español</button>
+  <button class="lang-btn" onclick="setLang('en')">🇬🇧 English</button>
+</div>
+
+<div class="mode-badge" id="mode-badge">TITULAR DE LA RESERVA · RESERVATION HOLDER</div>
+
+<div class="container">
+  <div id="main-form">
+
+    <!-- ── DATOS PERSONALES ── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-icon">👤</span>
+        <span class="section-title" data-es="Datos Personales" data-en="Personal Information">Datos Personales</span>
+      </div>
+      <div class="section-body">
+        <div class="field-row">
+          <div class="field">
+            <label data-es="Nombre y Apellido <span class='req'>*</span>" data-en="Full Name <span class='req'>*</span>">Nombre y Apellido <span class="req">*</span></label>
+            <input type="text" id="nombre" placeholder="Juan Pérez" autocomplete="name">
+          </div>
+        </div>
+        <div class="field-row cols-2">
+          <div class="field">
+            <label data-es="N° Documento (CI / Pasaporte) <span class='req'>*</span>" data-en="ID / Passport Number <span class='req'>*</span>">N° Documento <span class="req">*</span></label>
+            <input type="text" id="documento" placeholder="1.234.567">
+          </div>
+          <div class="field">
+            <label data-es="Edad <span class='req'>*</span>" data-en="Age <span class='req'>*</span>">Edad <span class="req">*</span></label>
+            <input type="number" id="edad" placeholder="30" min="1" max="120">
+          </div>
+        </div>
+        <div class="field-row cols-2">
+          <div class="field">
+            <label data-es="País" data-en="Country">País / Country</label>
+            <input type="text" id="pais" placeholder="Paraguay">
+          </div>
+          <div class="field">
+            <label data-es="Ciudad" data-en="City">Ciudad / City</label>
+            <input type="text" id="ciudad" placeholder="Asunción">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label data-es="Nacionalidad <span class='req'>*</span>" data-en="Nationality <span class='req'>*</span>">Nacionalidad <span class="req">*</span></label>
+            <input type="text" id="nacionalidad" placeholder="Paraguaya">
+          </div>
+        </div>
+        <div class="field-row cols-2">
+          <div class="field">
+            <label data-es="Teléfono <span class='req'>*</span>" data-en="Phone <span class='req'>*</span>">Teléfono <span class="req">*</span></label>
+            <input type="tel" id="telefono" placeholder="+595 981 000000" autocomplete="tel">
+          </div>
+          <div class="field">
+            <label data-es="Email <span class='req'>*</span>" data-en="Email <span class='req'>*</span>">Email <span class="req">*</span></label>
+            <input type="email" id="email" placeholder="correo@email.com" autocomplete="email">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label data-es="Alergias (opcional)" data-en="Allergies (optional)">Alergias / Allergies</label>
+            <input type="text" id="alergias" placeholder="Alergia a mariscos, nueces...">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── DATOS DE LA RESERVA ── -->
+    <div class="section" id="reserva-section">
+      <div class="section-header">
+        <span class="section-icon">🏕️</span>
+        <span class="section-title" data-es="Datos de la Reserva" data-en="Reservation Details">Datos de la Reserva</span>
+      </div>
+      <div class="section-body">
+        <div class="field-row cols-2">
+          <div class="field">
+            <label data-es="Fecha de Entrada <span class='req'>*</span>" data-en="Check-in Date <span class='req'>*</span>">Entrada / Check-in <span class="req">*</span></label>
+            <input type="date" id="fecha-entrada">
+          </div>
+          <div class="field">
+            <label data-es="Fecha de Salida <span class='req'>*</span>" data-en="Check-out Date <span class='req'>*</span>">Salida / Check-out <span class="req">*</span></label>
+            <input type="date" id="fecha-salida">
+          </div>
+        </div>
+        <div class="field-row cols-2">
+          <div class="field">
+            <label data-es="N° de Cabaña" data-en="Cabin Number">Cabaña / Cabin</label>
+            <input type="text" id="cabana" placeholder="Ej: Cabaña 3">
+          </div>
+          <div class="field">
+            <label data-es="Tipo de Alojamiento <span class='req'>*</span>" data-en="Accommodation Type <span class='req'>*</span>">Alojamiento <span class="req">*</span></label>
+            <select id="tipo-alojamiento">
+              <option value="">-- Seleccionar --</option>
+              <option value="Cabaña Simple" data-es="Cabaña Simple" data-en="Single Cabin">Cabaña Simple</option>
+              <option value="Cabaña Doble" data-es="Cabaña Doble" data-en="Double Cabin">Cabaña Doble</option>
+              <option value="Cabaña Familiar" data-es="Cabaña Familiar" data-en="Family Cabin">Cabaña Familiar</option>
+              <option value="Camping" data-es="Camping" data-en="Camping">Camping</option>
+            </select>
+          </div>
+        </div>
+
+        <hr class="divider">
+        <div class="field">
+          <label data-es="Actividades a realizar" data-en="Activities to perform">🌿 Actividades / Activities</label>
+        </div>
+        <div class="actividades-grid" style="margin-top:10px;">
+          <label class="check-item">
+            <input type="checkbox" name="actividad" value="Salto Karapa">
+            <div class="check-box"></div>
+            <span class="check-label">💧 Salto Karapa</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" name="actividad" value="Cubiertódromo">
+            <div class="check-box"></div>
+            <span class="check-label">🏃 Cubiertódromo</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" name="actividad" value="Canotaje">
+            <div class="check-box"></div>
+            <span class="check-label">🛶 Canotaje</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" name="actividad" value="Sendero Aguaraí">
+            <div class="check-box"></div>
+            <span class="check-label">🌿 Sendero Aguaraí</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" name="actividad" value="Sendero de las Orquídeas">
+            <div class="check-box"></div>
+            <span class="check-label">🌸 Sendero Orquídeas</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" name="actividad" value="Yerba Mate del Arroyo Moroti">
+            <div class="check-box"></div>
+            <span class="check-label">🧉 Arroyo Moroti</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FACTURACIÓN (solo titular) ── -->
+    <div class="section" id="factura-section">
+      <div class="section-header">
+        <span class="section-icon">🧾</span>
+        <span class="section-title" data-es="Datos de Facturación (opcional)" data-en="Billing Information (optional)">Datos de Facturación</span>
+      </div>
+      <div class="section-body">
+        <div class="field-row cols-2">
+          <div class="field">
+            <label>RUC</label>
+            <input type="text" id="ruc" placeholder="80000000-0">
+          </div>
+          <div class="field">
+            <label data-es="Razón Social" data-en="Company Name">Razón Social</label>
+            <input type="text" id="razon-social" placeholder="Empresa S.A.">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ACOMPAÑANTES (solo titular) ── -->
+    <div class="section" id="acomp-section">
+      <div class="section-header">
+        <span class="section-icon">👥</span>
+        <span class="section-title" data-es="Acompañantes" data-en="Companions">Acompañantes</span>
+      </div>
+      <div class="section-body">
+        <div class="acomp-nota" id="acomp-nota" data-es="Cada acompañante recibirá un <strong>link individual</strong> para completar su propia ficha. Indicá aquí cuántos acompañantes van con vos." data-en="Each companion will receive an <strong>individual link</strong> to complete their own form. Indicate here how many companions will join you.">
+          Cada acompañante recibirá un <strong>link individual</strong> para completar su propia ficha. Indicá aquí cuántos acompañantes van con vos.
+        </div>
+        <div class="field">
+          <label data-es="¿Cuántos acompañantes?" data-en="How many companions?">¿Cuántos acompañantes? / How many companions?</label>
+          <div class="num-control">
+            <button type="button" class="num-btn" onclick="changeNum(-1)">−</button>
+            <div class="num-display" id="num-display">0</div>
+            <button type="button" class="num-btn" onclick="changeNum(1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── COMO SE ENTERÓ ── -->
+    <div class="section" id="como-section">
+      <div class="section-header">
+        <span class="section-icon">📣</span>
+        <span class="section-title" data-es="¿Cómo se enteró de la reserva?" data-en="How did you find out about us?">¿Cómo nos conoció?</span>
+      </div>
+      <div class="section-body">
+        <div class="radio-row">
+          <label class="radio-pill" onclick="selectRadio(this, 'como')">
+            <input type="radio" name="como" value="Redes sociales">
+            <span data-es="📱 Redes sociales" data-en="📱 Social media">📱 Redes sociales</span>
+          </label>
+          <label class="radio-pill" onclick="selectRadio(this, 'como')">
+            <input type="radio" name="como" value="Recomendación">
+            <span data-es="🗣️ Recomendación" data-en="🗣️ Recommendation">🗣️ Recomendación</span>
+          </label>
+          <label class="radio-pill" onclick="selectRadio(this, 'como')">
+            <input type="radio" name="como" value="Otro">
+            <span data-es="✨ Otro" data-en="✨ Other">✨ Otro</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── AUTORIZACIÓN DE IMAGEN ── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-icon">📷</span>
+        <span class="section-title" data-es="Autorización de Imagen" data-en="Image Authorization">Autorización de Imagen</span>
+      </div>
+      <div class="section-body">
+        <p style="font-size:13px;color:var(--texto-suave);line-height:1.6;margin-bottom:14px;" data-es="¿Autoriza el uso de su imagen en fotografías y/o videos por la Fundación Moisés Bertoni con fines de promoción turística?" data-en="Do you authorize the use of your image in photos and/or videos by the Moisés Bertoni Foundation for tourism promotion purposes?">
+          ¿Autoriza el uso de su imagen en fotografías y/o videos por la Fundación Moisés Bertoni con fines de promoción turística?
+        </p>
+        <div class="imagen-row">
+          <label class="imagen-opt si" onclick="selectImagen(this, 'si')">
+            <input type="radio" name="imagen" value="Sí">
+            <span data-es="✅ Sí, autorizo" data-en="✅ Yes, I authorize">✅ Sí, autorizo</span>
+          </label>
+          <label class="imagen-opt no" onclick="selectImagen(this, 'no')">
+            <input type="radio" name="imagen" value="No">
+            <span data-es="❌ No autorizo" data-en="❌ No, I don't">❌ No autorizo</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── EXIMICIÓN DE RESPONSABILIDAD ── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-icon">📋</span>
+        <span class="section-title" data-es="Eximición de Responsabilidad" data-en="Liability Disclaimer">Eximición de Responsabilidad</span>
+      </div>
+      <div class="section-body">
+        <div class="exencion-box" id="exencion-text">
+          Tengo clara conciencia de que la visita a la Reserva Natural del Bosque Mbaracayú constituye una experiencia de campo, cuyos atractivos turísticos lo puedo disfrutar siguiendo las normas de seguridad y utilizando obligatoriamente los equipos e instrucciones proveídas por la Fundación Moisés Bertoni, aun así soy consciente que esto implica exposición a diferentes riesgos tales como pero no limitados a: mordedura de serpientes, picaduras de insectos (abejas, avispas), senderos resbaladizos, caída al agua o de árboles, actividades de rápel, entre otros posibles eventos que puedan tener lugar en las actividades recreativas incluidas en los paquetes turísticos.<br><br>
+          Tengo pleno conocimiento de estos riesgos y los asumo voluntariamente. En tal conocimiento, eximo por este medio a la Fundación Moisés Bertoni o sus funcionarios de toda responsabilidad por cualquier daño, lesión, enfermedad o muerte accidental durante mi visita a la Reserva Natural del Bosque Mbaracayú así como también desisto expresamente de toda acción judicial, civil y/o penal a mi favor que pueda derivar de la ocurrencia de los hechos accidentales previamente mencionados.
+        </div>
+        <div class="exencion-check" id="exencion-label" onclick="toggleExencion()">
+          <div class="exencion-check-box" id="exencion-box-visual"></div>
+          <span class="exencion-text" id="exencion-check-text" data-es="He leído y acepto los términos de la eximición de responsabilidad. Entiendo y asumo voluntariamente los riesgos descritos." data-en="I have read and accept the terms of the liability disclaimer. I understand and voluntarily assume the described risks.">
+            He leído y acepto los términos de la eximición de responsabilidad. Entiendo y asumo voluntariamente los riesgos descritos.
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="error-msg" id="error-msg">⚠️ Por favor completá los campos obligatorios marcados con * y aceptá la eximición de responsabilidad.</div>
+
+    <button class="submit-btn" onclick="submitForm()" id="submit-btn">
+      <div class="spinner" id="spinner"></div>
+      <span id="submit-text">✅ Enviar Ficha · Submit Form</span>
+    </button>
+
+  </div>
+
+  <!-- ── SUCCESS SCREEN ── -->
+  <div class="success-screen section" id="success-screen" style="display:none;">
+    <div class="success-icon">🌿</div>
+    <div class="success-title" data-es="¡Ficha enviada!" data-en="Form submitted!">¡Ficha enviada!</div>
+    <div class="success-msg" id="success-msg">Gracias. Tu ficha fue registrada correctamente. Nos vemos en el Mbaracayú.</div>
+    <div class="success-links" id="companion-links-section" style="display:none;">
+      <h3 data-es="Links para acompañantes" data-en="Companion links">Links para acompañantes · Companion links</h3>
+      <p style="font-size:12px;color:var(--texto-suave);margin-bottom:12px;" data-es="Compartí estos links por WhatsApp con cada acompañante para que completen su propia ficha." data-en="Share these links via WhatsApp with each companion so they can complete their form.">
+        Compartí estos links por WhatsApp con cada acompañante para que completen su propia ficha.
+      </p>
+      <div id="companion-links-list"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// CONFIG - REEMPLAZAR CON TU URL DE APPS SCRIPT
+// ══════════════════════════════════════════
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzUig5rHCk8hUJQBZHUdCztkf7sg7nGG3-kMXXFHo6aURxETKTJcm4XX8DLOFdWQSMe/exec';
+
+// ══════════════════════════════════════════
+// DETECTAR MODO (titular vs acompañante)
+// ══════════════════════════════════════════
+const urlParams = new URLSearchParams(window.location.search);
+const isCompanion = urlParams.get('modo') === 'acompanante';
+const reservaId = urlParams.get('reserva') || '';
+const companionNum = urlParams.get('num') || '';
+
+if (isCompanion) {
+  document.getElementById('mode-badge').textContent = 'ACOMPAÑANTE · COMPANION';
+  document.getElementById('reserva-section').style.display = 'none';
+  document.getElementById('factura-section').style.display = 'none';
+  document.getElementById('acomp-section').style.display = 'none';
+  document.getElementById('como-section').style.display = 'none';
+}
+
+// ══════════════════════════════════════════
+// IDIOMA
+// ══════════════════════════════════════════
+let lang = 'es';
+
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.lang-btn')[l === 'es' ? 0 : 1].classList.add('active');
+
+  document.querySelectorAll('[data-' + l + ']').forEach(el => {
+    el.innerHTML = el.getAttribute('data-' + l);
+  });
+
+  // Placeholder exención
+  if (l === 'en') {
+    document.getElementById('exencion-text').innerHTML = `I am aware that the visit to the Mbaracayu Nature Forest Reserve is a field experience, where I can enjoy recreational activities following safety standards and instructions as well as using the mandatory equipment provided by the Moises Bertoni Foundation; I am also aware that this implies exposure to various risks, including but not limited to: snake bites, insect stings (bees, wasps), slippery trails, falling from a tree or into the water, or while rappelling, among other possible events that may occur in the recreational activities included in the tours.<br><br>I am fully aware of these risks and I voluntarily assume them. With that knowledge, I release hereby the Moises Bertoni Foundation or its employees from liability for any damage, injury, illness or accidental death during my visit to the Mbaracayu Nature Forest Reserve.`;
+    document.getElementById('submit-text').textContent = '✅ Submit Form · Enviar Ficha';
+    document.getElementById('error-msg').textContent = '⚠️ Please fill in all required fields (*) and accept the liability disclaimer.';
+  } else {
+    document.getElementById('exencion-text').innerHTML = `Tengo clara conciencia de que la visita a la Reserva Natural del Bosque Mbaracayú constituye una experiencia de campo, cuyos atractivos turísticos lo puedo disfrutar siguiendo las normas de seguridad y utilizando obligatoriamente los equipos e instrucciones proveídas por la Fundación Moisés Bertoni, aun así soy consciente que esto implica exposición a diferentes riesgos tales como pero no limitados a: mordedura de serpientes, picaduras de insectos (abejas, avispas), senderos resbaladizos, caída al agua o de árboles, actividades de rápel, entre otros posibles eventos que puedan tener lugar en las actividades recreativas incluidas en los paquetes turísticos.<br><br>Tengo pleno conocimiento de estos riesgos y los asumo voluntariamente. En tal conocimiento, eximo por este medio a la Fundación Moisés Bertoni o sus funcionarios de toda responsabilidad por cualquier daño, lesión, enfermedad o muerte accidental durante mi visita a la Reserva Natural del Bosque Mbaracayú.`;
+    document.getElementById('submit-text').textContent = '✅ Enviar Ficha · Submit Form';
+    document.getElementById('error-msg').textContent = '⚠️ Por favor completá los campos obligatorios marcados con * y aceptá la eximición de responsabilidad.';
+  }
+}
+
+// ══════════════════════════════════════════
+// UI HELPERS
+// ══════════════════════════════════════════
+let numAcomp = 0;
+
+function changeNum(delta) {
+  numAcomp = Math.max(0, Math.min(20, numAcomp + delta));
+  document.getElementById('num-display').textContent = numAcomp;
+}
+
+function selectRadio(el, group) {
+  document.querySelectorAll(`input[name="${group}"]`).forEach(r => r.closest('.radio-pill')?.classList.remove('selected'));
+  el.classList.add('selected');
+  el.querySelector('input').checked = true;
+}
+
+function selectImagen(el, val) {
+  document.querySelectorAll('.imagen-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+let exencionChecked = false;
+function toggleExencion() {
+  exencionChecked = !exencionChecked;
+  const box = document.getElementById('exencion-box-visual');
+  if (exencionChecked) {
+    box.style.background = 'var(--tierra)';
+    box.style.borderColor = 'var(--tierra)';
+    box.innerHTML = '<span style="color:white;font-size:14px;font-weight:700;">✓</span>';
+  } else {
+    box.style.background = 'var(--blanco)';
+    box.style.borderColor = 'var(--tierra)';
+    box.innerHTML = '';
+  }
+}
+
+// ══════════════════════════════════════════
+// SUBMIT
+// ══════════════════════════════════════════
+function getActividades() {
+  return Array.from(document.querySelectorAll('input[name="actividad"]:checked')).map(c => c.value).join(', ');
+}
+
+function validate() {
+  const required = ['nombre', 'documento', 'edad', 'nacionalidad', 'telefono', 'email'];
+  let ok = true;
+  required.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el || !el.value.trim()) {
+      if (el) el.classList.add('error');
+      ok = false;
+    } else {
+      el.classList.remove('error');
+    }
+  });
+  if (!isCompanion) {
+    ['fecha-entrada', 'fecha-salida', 'tipo-alojamiento'].forEach(id => {
+      const el = document.getElementById(id);
+      if (!el || !el.value) { if (el) el.classList.add('error'); ok = false; }
+      else el.classList.remove('error');
+    });
+  }
+  if (!exencionChecked) ok = false;
+  return ok;
+}
+
+async function submitForm() {
+  if (!validate()) {
+    const errEl = document.getElementById('error-msg');
+    errEl.style.display = 'block';
+    errEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  document.getElementById('error-msg').style.display = 'none';
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  document.getElementById('spinner').style.display = 'block';
+  document.getElementById('submit-text').textContent = lang === 'es' ? 'Enviando...' : 'Submitting...';
+
+  // Generar ID de reserva único si es titular
+  const timestamp = Date.now();
+  const finalReservaId = isCompanion ? reservaId : 'MBY-' + timestamp;
+
+  const payload = {
+    tipo: isCompanion ? 'acompanante' : 'titular',
+    reserva_id: finalReservaId,
+    companion_num: companionNum,
+    nombre: document.getElementById('nombre').value,
+    documento: document.getElementById('documento').value,
+    edad: document.getElementById('edad').value,
+    pais: document.getElementById('pais')?.value || '',
+    ciudad: document.getElementById('ciudad')?.value || '',
+    nacionalidad: document.getElementById('nacionalidad').value,
+    telefono: document.getElementById('telefono').value,
+    email: document.getElementById('email').value,
+    alergias: document.getElementById('alergias')?.value || '',
+    fecha_entrada: document.getElementById('fecha-entrada')?.value || '',
+    fecha_salida: document.getElementById('fecha-salida')?.value || '',
+    cabana: document.getElementById('cabana')?.value || '',
+    tipo_alojamiento: document.getElementById('tipo-alojamiento')?.value || '',
+    actividades: isCompanion ? '' : getActividades(),
+    ruc: document.getElementById('ruc')?.value || '',
+    razon_social: document.getElementById('razon-social')?.value || '',
+    num_acompanantes: isCompanion ? '' : numAcomp,
+    como_se_entero: document.querySelector('input[name="como"]:checked')?.value || '',
+    autoriza_imagen: document.querySelector('input[name="imagen"]:checked')?.value || '',
+    acepta_exencion: 'Sí',
+    timestamp: new Date().toISOString(),
+  };
+
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch (e) {
+    console.warn('Fetch error (no-cors, ignorar):', e);
+  }
+
+  // Mostrar pantalla de éxito
+  document.getElementById('main-form').style.display = 'none';
+  const ss = document.getElementById('success-screen');
+  ss.style.display = 'block';
+
+  const msg = document.getElementById('success-msg');
+  msg.textContent = lang === 'es'
+    ? 'Gracias, ' + payload.nombre.split(' ')[0] + '. Tu ficha fue registrada correctamente. ¡Nos vemos en el Mbaracayú!'
+    : 'Thank you, ' + payload.nombre.split(' ')[0] + '. Your form has been registered. See you at Mbaracayú!';
+
+  // Si es titular y tiene acompañantes → generar links
+  if (!isCompanion && numAcomp > 0) {
+    const baseUrl = window.location.origin + window.location.pathname;
+    const linksSection = document.getElementById('companion-links-section');
+    const linksList = document.getElementById('companion-links-list');
+    linksSection.style.display = 'block';
+    linksList.innerHTML = '';
+
+    for (let i = 1; i <= numAcomp; i++) {
+      const link = `${baseUrl}?modo=acompanante&reserva=${finalReservaId}&num=${i}`;
+      const item = document.createElement('div');
+      item.className = 'companion-link-item';
+      item.innerHTML = `
+        <span>👤 Acompañante ${i}</span>
+        <button class="copy-btn" onclick="copyLink('${link}', this)">📋 Copiar</button>
+      `;
+      linksList.appendChild(item);
+    }
+  }
+}
+
+function copyLink(link, btn) {
+  navigator.clipboard.writeText(link).then(() => {
+    btn.textContent = '✅ Copiado';
+    setTimeout(() => btn.textContent = '📋 Copiar', 2000);
+  });
+}
+</script>
+</body>
+</html>
