@@ -460,6 +460,110 @@
     display: none;
   }
 
+  /* ─── DESAYUNO ─── */
+  .desayuno-loading {
+    text-align: center;
+    padding: 24px;
+    color: var(--texto-suave);
+    font-size: 13px;
+  }
+  .desayuno-loading .load-spinner {
+    width: 24px; height: 24px;
+    border: 2px solid var(--crema-oscuro);
+    border-top-color: var(--verde-medio);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin: 0 auto 10px;
+  }
+  .franja-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .franja-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--crema);
+    border: 1.5px solid var(--crema-oscuro);
+    border-radius: 8px;
+    padding: 12px 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--texto-suave);
+    transition: all 0.15s;
+    text-align: center;
+    user-select: none;
+  }
+  .franja-item:hover { border-color: var(--verde-claro); }
+  .franja-item.selected {
+    border-color: var(--verde-medio);
+    background: rgba(74,122,74,0.1);
+    color: var(--verde-bosque);
+  }
+  .categoria-block { margin-bottom: 18px; }
+  .categoria-titulo {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--texto-suave);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--crema-oscuro);
+  }
+  .opciones-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+  .opcion-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--crema);
+    border: 1.5px solid var(--crema-oscuro);
+    border-radius: 20px;
+    padding: 7px 13px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--texto);
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .opcion-chip:hover { border-color: var(--verde-claro); }
+  .opcion-chip.selected {
+    border-color: var(--verde-medio);
+    background: rgba(74,122,74,0.1);
+    color: var(--verde-bosque);
+    font-weight: 700;
+  }
+  .opcion-chip .chip-check {
+    width: 14px; height: 14px;
+    border: 1.5px solid var(--crema-oscuro);
+    border-radius: 3px;
+    background: var(--blanco);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    transition: all 0.15s;
+  }
+  .opcion-chip.selected .chip-check {
+    background: var(--verde-medio);
+    border-color: var(--verde-medio);
+    color: white;
+  }
+  .desayuno-error {
+    background: rgba(192,57,43,0.07);
+    border: 1px solid var(--error);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--error);
+    text-align: center;
+  }
+
   /* ─── RESPONSIVE ─── */
   @media (max-width: 400px) {
     .field-row.cols-3 { grid-template-columns: 1fr 1fr; }
@@ -757,6 +861,33 @@
       </div>
     </div>
 
+    <!-- ── DESAYUNO ── -->
+    <div class="section" id="desayuno-section">
+      <div class="section-header">
+        <span class="section-icon">🧇</span>
+        <span class="section-title" data-es="Pedido de Desayuno" data-en="Breakfast Order">Pedido de Desayuno</span>
+      </div>
+      <div class="section-body" id="desayuno-body">
+        <div class="desayuno-loading" id="desayuno-loading">
+          <div class="load-spinner"></div>
+          <span data-es="Cargando opciones de desayuno..." data-en="Loading breakfast options...">Cargando opciones de desayuno...</span>
+        </div>
+        <div id="desayuno-contenido" style="display:none;">
+          <p style="font-size:13px;color:var(--texto-suave);line-height:1.6;margin-bottom:16px;" data-es="El desayuno está incluido y se sirve directamente en tu bungalow. Seleccioná tu franja horaria y tus preferencias." data-en="Breakfast is included and served directly at your bungalow. Select your time slot and preferences.">
+            El desayuno está incluido y se sirve directamente en tu bungalow. Seleccioná tu franja horaria y tus preferencias.
+          </p>
+          <div class="field" style="margin-bottom:14px;">
+            <label data-es="⏰ Franja horaria de entrega <span class='req'>*</span>" data-en="⏰ Delivery time slot <span class='req'>*</span>">⏰ Franja horaria <span class="req">*</span></label>
+          </div>
+          <div class="franja-grid" id="franja-grid"></div>
+          <div id="categorias-container"></div>
+        </div>
+        <div id="desayuno-error-msg" class="desayuno-error" style="display:none;">
+          ⚠️ No se pudieron cargar las opciones. <a href="#" onclick="cargarMenu()" style="color:var(--error);">Reintentar</a>
+        </div>
+      </div>
+    </div>
+
     <!-- ── EXIMICIÓN DE RESPONSABILIDAD ── -->
     <div class="section">
       <div class="section-header">
@@ -806,7 +937,7 @@
 // ══════════════════════════════════════════
 // CONFIG - REEMPLAZAR CON TU URL DE APPS SCRIPT
 // ══════════════════════════════════════════
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzUig5rHCk8hUJQBZHUdCztkf7sg7nGG3-kMXXFHo6aURxETKTJcm4XX8DLOFdWQSMe/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzdd7E-rqJ2PcuRqqoLukJqxORXKzmfjKTZzhad9eA-GGKasNr7qH-SvlmhOgtnodfA/exec';
 
 // ══════════════════════════════════════════
 // DETECTAR MODO (titular vs acompañante)
@@ -887,8 +1018,89 @@ function toggleExencion() {
 }
 
 // ══════════════════════════════════════════
-// SUBMIT
+// DESAYUNO - CARGA DINÁMICA DESDE SHEETS
 // ══════════════════════════════════════════
+let menuData = { franjas: [], categorias: {} };
+let franjaSeleccionada = '';
+
+async function cargarMenu() {
+  document.getElementById('desayuno-loading').style.display = 'block';
+  document.getElementById('desayuno-contenido').style.display = 'none';
+  document.getElementById('desayuno-error-msg').style.display = 'none';
+
+  try {
+    const res = await fetch(APPS_SCRIPT_URL + '?action=getMenu');
+    const data = await res.json();
+    menuData = data;
+    renderMenu(data);
+    document.getElementById('desayuno-loading').style.display = 'none';
+    document.getElementById('desayuno-contenido').style.display = 'block';
+  } catch(e) {
+    document.getElementById('desayuno-loading').style.display = 'none';
+    document.getElementById('desayuno-error-msg').style.display = 'block';
+  }
+}
+
+function renderMenu(data) {
+  // Franjas horarias
+  const franjaGrid = document.getElementById('franja-grid');
+  franjaGrid.innerHTML = '';
+  (data.franjas || []).forEach(f => {
+    const el = document.createElement('div');
+    el.className = 'franja-item';
+    el.textContent = '🕐 ' + f;
+    el.onclick = () => {
+      document.querySelectorAll('.franja-item').forEach(x => x.classList.remove('selected'));
+      el.classList.add('selected');
+      franjaSeleccionada = f;
+    };
+    franjaGrid.appendChild(el);
+  });
+
+  // Categorías y opciones
+  const container = document.getElementById('categorias-container');
+  container.innerHTML = '';
+  const cats = data.categorias || {};
+  Object.keys(cats).forEach(cat => {
+    const block = document.createElement('div');
+    block.className = 'categoria-block';
+    block.innerHTML = `<div class="categoria-titulo">🍽️ ${cat}</div><div class="opciones-grid" id="cat-${cat.replace(/\s/g,'_')}"></div>`;
+    container.appendChild(block);
+
+    const grid = block.querySelector('.opciones-grid');
+    (cats[cat] || []).forEach(opcion => {
+      const chip = document.createElement('div');
+      chip.className = 'opcion-chip';
+      chip.dataset.cat = cat;
+      chip.dataset.val = opcion;
+      chip.innerHTML = `<div class="chip-check"></div><span>${opcion}</span>`;
+      chip.onclick = () => {
+        chip.classList.toggle('selected');
+        if (chip.classList.contains('selected')) {
+          chip.querySelector('.chip-check').textContent = '✓';
+        } else {
+          chip.querySelector('.chip-check').textContent = '';
+        }
+      };
+      grid.appendChild(chip);
+    });
+  });
+}
+
+function getDesayunoPedido() {
+  const pedido = { franja: franjaSeleccionada, selecciones: {} };
+  document.querySelectorAll('.opcion-chip.selected').forEach(chip => {
+    const cat = chip.dataset.cat;
+    if (!pedido.selecciones[cat]) pedido.selecciones[cat] = [];
+    pedido.selecciones[cat].push(chip.dataset.val);
+  });
+  return JSON.stringify(pedido);
+}
+
+// Cargar menú al iniciar
+cargarMenu();
+
+
 function getActividades() {
   return Array.from(document.querySelectorAll('input[name="actividad"]:checked')).map(c => c.value).join(', ');
 }
@@ -958,6 +1170,7 @@ async function submitForm() {
     como_se_entero: document.querySelector('input[name="como"]:checked')?.value || '',
     autoriza_imagen: document.querySelector('input[name="imagen"]:checked')?.value || '',
     acepta_exencion: 'Sí',
+    desayuno: getDesayunoPedido(),
     timestamp: new Date().toISOString(),
   };
 
